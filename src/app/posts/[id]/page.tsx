@@ -1,10 +1,16 @@
 import { Suspense } from 'react';
-import PostContent from './PostContent';
+import PostDetail from './PostDetail';
 
-export default function PostPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function PostPage({ params }: PageProps) {
+  const resolvedParams = await params;
+
   return (
-    <Suspense fallback={<div>載入中...</div>}>
-      <PostContent postId={params.id} />
+    <Suspense fallback={<div className="text-center py-8">載入中...</div>}>
+      <PostDetail postId={resolvedParams.id} />
     </Suspense>
   );
 }
